@@ -89,6 +89,12 @@ def simulate_trade(direction, ei, xe, o, h, l, c, ts, rule="naive",
             exit_exec = o[xe] if long_ else o[xe] + sp_k
             exit_kind = "cross"; exit_k = xe
             break
+        # -- time stop: exits AT OPEN, hence checked BEFORE any intra-candle
+        #    stop/TP path on this candle --------------------------------------
+        if tmax is not None and k - ei >= tmax:
+            exit_exec = o[k] if long_ else o[k] + sp_k
+            exit_kind, exit_k = "time", k
+            break
         # -- A2 adverse-first: stop check ---------------------------------
         if stop_lv is not None:
             if long_:
@@ -110,11 +116,6 @@ def simulate_trade(direction, ei, xe, o, h, l, c, ts, rule="naive",
             if trig:
                 exit_exec, exit_kind, exit_k = fill, "tp", k
                 break
-        # -- time stop ----------------------------------------------------
-        if tmax is not None and k - ei >= tmax:
-            exit_exec = o[k] if long_ else o[k] + sp_k
-            exit_kind, exit_k = "time", k
-            break
         # -- A3 close-of-candle arming/updating, effective next candle ----
         if rule == "breakeven" and not be_armed and be_trigger is not None:
             fav = (h[k] - entry_exec) if long_ else (entry_exec - (l[k] + sp_k))
@@ -229,6 +230,17 @@ def _selftest():
     # Fri 18:00 -> Mon 02:00: Fri22 charges, Sat/Sun skip = 1
     n = swap_nights(pd.Timestamp("2026-07-17 18:00"), pd.Timestamp("2026-07-20 02:00"))
     chk("C7 swap weekend skip", n, 1)
+
+    # Case 8 — time-exit-at-open PRIORITY over same-candle stop:
+    # tmax=2 -> exit at open of candle2 (100.30) even though candle2's low
+    # (99.00) pierces the 99.08 stop level.
+    o8 = np.array([100,100.2,100.3,100,100,100,100,100.])
+    h8 = np.array([100.3,100.4,100.5,100,100,100,100,100.])
+    l8 = np.array([ 99.9,100.0, 99.0,100,100,100,100,100.])
+    c8 = np.array([100.2,100.1,100.2,100,100,100,100,100.])
+    r = simulate_trade("BULL",0,5,o8,h8,l8,c8,ts,rule="fixed",stop=1.00,tmax=2)
+    chk("C8 time exit beats same-candle stop", r["exit_exec"], 100.30)
+    chk("C8 exit kind is time", 1.0 if r["exit_kind"]=="time" else 0.0, 1.0)
 
     print(f"SELFTEST {'PASSED' if ok else 'FAILED'}")
     return ok
