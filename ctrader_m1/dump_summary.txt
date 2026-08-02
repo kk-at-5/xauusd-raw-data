@@ -1,0 +1,13 @@
+=== BULK DUMP SUMMARY ===
+symbol             : XAUUSD
+run time (UTC)     : 2026-08-01 08:33:57
+history exhausted  : YES (721 load calls)
+bars written       : 4854436
+  active (>= 2016-01-01)  : 3730800
+  quarantined      : 1123636
+monthly files      : 166
+first bar          : 2012-10-14 22:00Z
+last bar written   : 2026-07-31 20:57Z
+duplicate ts       : 0
+non-monotonic ts   : 0
+OHLC breaches      : 0
