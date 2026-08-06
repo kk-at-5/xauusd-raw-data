@@ -60,7 +60,10 @@ F["gap_norm"] = F["gap_at_confirm_$"]/F["mean_range_prior_14"]
 # ---------------- walk-forward folds + purge ----------------
 FOLDS = [(1,2016,2017),(2,2017,2018),(3,2018,2019),(4,2019,2020),
          (5,2020,2021),(6,2021,2022),(7,2022,2023),(8,2023,2024)]
-seam_years = list(range(2016,2025))          # boundaries 2016/17 ... 2024/25
+# [C9 FIX 2026-08-06] 2015/16 boundary added. The 2015-12 quarantine block is
+# EMA burn-in only (rulebook: "pre-2016 quarantined — EMA burn-in seeding only,
+# never analysis"); it is a real seam and must be purged like any other.
+seam_years = list(range(2015,2025))          # boundaries 2015/16 ... 2024/25
 purge_days = set()
 for y in seam_years:
     a = blk[blk.year==y]; b = blk[blk.year==y+1]
@@ -75,14 +78,19 @@ for j,(a,b) in enumerate(zip(F.day_id.values, ed)):
     lo,hi = (a,b) if a<=b else (b,a)
     k = np.searchsorted(pd_arr, lo)
     if k < len(pd_arr) and pd_arr[k] <= hi: ov[j] = True
-F["purged"] = ov | F.censored.values
-print(f"trades purged (incl. 1 censored): {int(F.purged.sum())} of {len(F):,} "
+# [C9 FIX 2026-08-06] pre-2016 rows are quarantine burn-in, never analysis.
+# Excluded from ALL fit/eval by folding into the same mask every consumer reads.
+F["pre2016"] = F.year.values < 2016
+F["seam_purged"] = ov | F.censored.values
+F["purged"] = F.seam_purged.values | F.pre2016.values
+print(f"pre-2016 trades excluded (burn-in quarantine): {int(F.pre2016.sum())}")
+print(f"trades purged (incl. 1 censored, incl. pre-2016): {int(F.purged.sum())} of {len(F):,} "
       f"({100*F.purged.mean():.3f}%)")
 
 # ---------------- embargo-width check (train folds only) ----------------
-tr_pool = F[(~F.purged) & (F.year<=2023)]
+tr_pool = F[(~F.purged) & (F.year>=2016) & (F.year<=2023)]
 p995 = np.percentile(tr_pool.duration_candles, 99.5)
-med_day = blk[blk.year<=2023].ncand.median()
+med_day = blk[(blk.year>=2016)&(blk.year<=2023)].ncand.median()
 print(f"[embargo check] train-pool p99.5 duration = {p995:.0f} candles; "
       f"median trading day = {med_day:.0f} candles -> "
       f"{'WIDEN REQUIRED' if p995>med_day else 'one-day embargo SUFFICIENT'}")
