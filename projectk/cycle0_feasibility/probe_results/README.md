@@ -71,3 +71,43 @@ Bots that produced these live in `ctrader_bots/`.
   complete an exact DXY. EURUSD + USDJPY alone are 71% of DXY by weight, and
   each extra series adds comparison-budget surface.
 ```
+
+---
+
+# Task 2B — XAUUSD tick-volume companion (`ctrader_m1_tickvol/`)
+
+Produced by `ctrader_bots/TickVolumeDumper.cs`, run 2026-08-30 15:46 UTC.
+Validated by `../validate_tickvol.py` against `ctrader_m1/`.
+
+## VALIDATION RESULT — PASSED
+
+- 3,730,800 timestamps match `ctrader_m1/` exactly, in order.
+- All 3,730,800 closes identical. The broker has revised NO historical bar since the 2026-08-01 ground-truth dump.
+- 0 zero-volume bars across 4,881,968. No cap or truncation: the upper tail decays smoothly to a max of 766.
+- Companion extends 28.0 days beyond ground truth (to 2026-08-28).
+
+The companion may be joined to `ctrader_m1/` on `timestamp_utc`.
+
+## THE LEVEL CAVEAT — LOAD-BEARING, READ BEFORE USING TICK VOLUME
+
+Median ticks/bar rises monotonically across the sample:
+
+| year | 2016 | 2018 | 2020 | 2022 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|---|
+| median ticks/bar | 66 | 101 | 123 | 117 | 152 | 212 | 341 |
+
+Read naively this says gold trading activity quintupled. **It does not.**
+
+cTrader tick volume counts PRICE UPDATES, and gold's tick size is a fixed $0.01.
+The same PERCENTAGE move therefore crosses ~4x more $0.01 increments at $4,000
+than at $1,000. Testing that hypothesis:
+
+- corr(log median ticks, log median $-move per bar) across 11 annual points = **0.944**. Tick volume tracks DOLLAR movement almost perfectly.
+- Price rose 3.64x 2016->2026; median $-move per minute rose 7.23x; median ticks rose 5.17x.
+- Residual (observed ticks / ticks predicted from price x volatility) still varies 2.8x across years and is DECLINING (5.01 in 2016 -> 3.60 in 2026), so the price-level artifact explains most of the drift but not all. The remainder looks like feed behaviour changing on top of it.
+
+CONSEQUENCES:
+
+- **RAW TICK-VOLUME LEVELS ARE NOT COMPARABLE ACROSS YEARS.** A rule such as "trade when ticks > 200" is almost never true in 2016 and routine in 2026. That is not a signal, it is a calendar in disguise — and it would look like a clean regime filter in a backtest.
+- **TICK VOLUME IS LARGELY A RESTATEMENT OF DOLLAR VOLATILITY**, which is already computable from OHLC. Its independent information content is the ~2.8x residual, not the headline series. This LOWERS the prior on tick volume as a lever — the handover called it a weak proxy; this measures how weak and why.
+- **IF USED, NORMALISE WITHIN A LOCAL WINDOW** (e.g. ticks relative to a trailing 20-day median) so the price-level trend cancels. Never use the raw level.
