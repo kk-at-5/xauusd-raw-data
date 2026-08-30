@@ -1,0 +1,58 @@
+=== SYMBOL DEPTH / VOLUME / ALIGNMENT PROBE (v2) ===
+run time (UTC) : 2026-08-30 15:06:18
+broker         : Raw Trading Ltd
+target date    : 2016-01-01
+reference      : XAUUSD
+align window   : 2026-07-01 -> 2026-08-30 (60 days)
+alignment is INTERSECTED with each symbol's own range (see overlap_days)
+
+reference minutes in window: 57932 (8 load calls)
+
+XAGUSD
+   bars 3618323   2015-12-29 -> 2026-08-28   span 3894.9 days
+   reached 2016-01-01: YES   stop: REACHED_TARGET (556 load calls)
+   overlap with reference window: 58.2 days (57932 ref minutes, 57928 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 99.99% of reference minutes IN THE OVERLAP
+   0.00% of its own bars fall outside reference minutes
+
+EURUSD
+   bars 3941817   2015-12-29 -> 2026-08-28   span 3895.0 days
+   reached 2016-01-01: YES   stop: REACHED_TARGET (556 load calls)
+   overlap with reference window: 58.2 days (57932 ref minutes, 60148 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 99.92% of reference minutes IN THE OVERLAP
+   3.76% of its own bars fall outside reference minutes
+
+USDJPY
+   bars 3949052   2015-12-29 -> 2026-08-28   span 3895.0 days
+   reached 2016-01-01: YES   stop: REACHED_TARGET (556 load calls)
+   overlap with reference window: 58.2 days (57932 ref minutes, 60169 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 99.96% of reference minutes IN THE OVERLAP
+   3.75% of its own bars fall outside reference minutes
+
+XAUEUR
+   bars 3767665   2015-12-29 -> 2026-08-28   span 3894.9 days
+   reached 2016-01-01: YES   stop: REACHED_TARGET (556 load calls)
+   overlap with reference window: 58.2 days (57932 ref minutes, 57930 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 100.00% of reference minutes IN THE OVERLAP
+   0.00% of its own bars fall outside reference minutes
+
+US500
+   bars 3416303   2015-12-30 -> 2026-08-28   span 3894.6 days
+   reached 2016-01-01: YES   stop: REACHED_TARGET (556 load calls)
+   overlap with reference window: 58.2 days (57930 ref minutes, 57867 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 99.74% of reference minutes IN THE OVERLAP
+   0.15% of its own bars fall outside reference minutes
+
+XTIUSD
+   bars 3347398   2016-06-09 -> 2026-08-28   span 3732.8 days
+   reached 2016-01-01: NO   stop: SERVER_EXHAUSTED (534 load calls)
+   overlap with reference window: 58.2 days (57932 ref minutes, 57381 symbol bars)
+   tick volume non-zero : 100.00%
+   covers 98.90% of reference minutes IN THE OVERLAP
+   0.15% of its own bars fall outside reference minutes
+

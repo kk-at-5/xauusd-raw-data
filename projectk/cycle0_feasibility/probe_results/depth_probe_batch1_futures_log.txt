@@ -1,0 +1,16 @@
+=== SYMBOL DEPTH / VOLUME / ALIGNMENT PROBE ===
+run time (UTC) : 2026-08-30 14:43:58
+broker         : Raw Trading Ltd
+target date    : 2016-01-01
+reference      : XAUUSD
+align window   : last 60 days
+
+reference minutes in window: 57955 (0 load calls)
+
+GCZ26_CFD
+   bars 33719   2026-07-27 -> 2026-08-28   span 32.5 days
+   reached 2016-01-01: NO   stop: SERVER_EXHAUSTED (1 load calls)
+   tick volume non-zero: 100.00% of 33719 bars in window
+   alignment: covers 58.16% of XAUUSD minutes; 0.03% of its own bars fall outside them
+
+GCM26: FAILED - Exception of type 'cTrader.Automate.Host.Dispatcher.Exceptions.AutomateDispatcherUnhandledException' was thrown.

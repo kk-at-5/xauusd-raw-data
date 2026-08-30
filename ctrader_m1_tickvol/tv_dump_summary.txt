@@ -1,0 +1,18 @@
+=== TICK VOLUME COMPANION DUMP SUMMARY ===
+symbol             : XAUUSD
+run time (UTC)     : 2026-08-30 15:46:55
+history exhausted  : YES (717 load calls)
+bars written       : 4881968
+  active (>= 2016-01-01)  : 3758332
+  quarantined      : 1123636
+monthly files      : 167
+first bar          : 2012-10-14 22:00Z
+last bar written   : 2026-08-28 20:56Z
+duplicate ts       : 0
+non-monotonic ts   : 0
+ZERO tick volume   : 0 bars (0.000%)
+mean tick volume   : 128.82 ticks/bar
+
+NOT VALIDATED YET. Run validate_tickvol.py against ctrader_m1/ before use:
+it proves timestamp-for-timestamp and close-for-close agreement, i.e. that
+this is the same feed and that no historical bar has been revised.
