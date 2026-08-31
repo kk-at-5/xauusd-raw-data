@@ -1,0 +1,45 @@
+{
+  "active_bars": 3730800,
+  "sessions": 2747,
+  "main_sessions": 2728,
+  "tradeable_days": 2721,
+  "first_bar": "2016-01-03 23:00:00",
+  "last_bar": "2026-07-31 20:57:00",
+  "dev_days": 1801,
+  "holdout_days": 896,
+  "excised_days": 24,
+  "slices": {
+    "DEV": {
+      "bars": 2465415,
+      "sha256": "e8386b40b3163ad9e5f29f5585326d9ff11b5884393b5d6bb89228e6dd6b44eb"
+    },
+    "HOLDOUT": {
+      "bars": 1232701,
+      "sha256": "a498af5cbe84fa937cc25923491aaad3eed60e4fcc7c922fb907c374383337fb"
+    },
+    "EXCISED": {
+      "bars": 32684,
+      "sha256": "a3c333f0219e28f742dd4e928c423a74dd01aaf6082e9f5094b7b0e06991e9cb"
+    }
+  },
+  "sealed_utc": "2026-08-31T06:10:54.453928+00:00",
+  "partition": {
+    "quarantine": [
+      null,
+      "2015-12-31"
+    ],
+    "dev": [
+      "2016-01-01",
+      "2022-12-31"
+    ],
+    "holdout": [
+      "2023-01-01",
+      "2026-06-29"
+    ],
+    "excised": [
+      "2026-06-30",
+      "2026-07-31"
+    ],
+    "window": "02:00-16:00Z"
+  }
+}
