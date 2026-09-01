@@ -1,0 +1,3 @@
+file,quarantined,rows,first_bar_utc,last_bar_utc
+usdjpy_hour.csv,0,66288,2016-01-03 22:00:00,2026-08-31 09:00:00
+quarantine_pre2016/usdjpy_hour.csv,1,32698,2010-10-01 00:00:00,2015-12-31 21:00:00

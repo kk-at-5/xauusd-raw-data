@@ -1,0 +1,20 @@
+=== BAR DUMP SUMMARY ===
+symbol             : USDJPY
+timeframe          : Hour
+digits             : 3
+run time (UTC)     : 2026-08-31 10:28:31
+history exhausted  : YES (86 load calls)
+bars written       : 98986
+  active (>= 2016-01-01) : 66288
+  quarantined      : 32698
+first bar          : 2010-10-01 00:00Z
+last bar written   : 2026-08-31 09:00Z
+duplicate ts       : 0
+non-monotonic ts   : 0
+OHLC breaches      : 0
+
+NOT VALIDATED YET. This file is not a lever until it clears:
+  1. the CROSS-FEED GATE (XAUUSD H1 opens vs ctrader_m1/ at 00:00/02:00/16:00Z), and
+  2. the per-source DATA-QUALITY GATE (coverage, gaps, alignment to XAUUSD days).
+Rows dated 2023-01-01 onward are HOLDOUT under the Cycle 1 seal and are not
+to be examined. The seal is a date range binding EVERY source, not only XAUUSD.
